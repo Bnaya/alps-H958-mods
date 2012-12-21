@@ -1,0 +1,31 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : bgcngm AKA Bruno Martins for MTK-Tools
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+logo_dir=logo.img_MT65xx
+  
+  echo
+  echo Repack logo.img ...
+  cd tools/MT65xx
+  perl repack-MT65xx.pl -logo ../../$logo_dir/logo ../../$logo_dir/logo/logo.img 2>/dev/null
+
+echo  
+echo "---> Copy logo.img to the working folder"
+echo  
+echo "---> logo.img_MT65xx folder will be deleted after you press enter"
+
+cd ../../scripts
+
+./press_enter
+
+  cd ..
+  echo "Removing $logo_dir folder"
+  rm -rf $logo_dir
+  exit 0

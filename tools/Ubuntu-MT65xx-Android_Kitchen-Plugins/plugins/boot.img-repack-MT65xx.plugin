@@ -1,0 +1,50 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : bgcngm AKA Bruno Martins for MTK-Tools
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+boot_dir=boot.img_MT65xx
+
+
+  cd $boot_dir
+  cp ../tools/MT65xx/repack-MT65xx.pl ../$boot_dir
+  cp ../tools/MT65xx/mkbootimg ../$boot_dir
+  chmod a+x mkbootimg
+  
+  echo
+  echo Repack boot.img ...
+  perl repack-MT65xx.pl -boot ./boot.img-kernel.img ./boot.img-ramdisk ./boot.img 2>/dev/null
+
+if [ ! -e boot.img-kernel.img ]
+  then
+    echo "Error: No boot.img-kernel.img found!"
+  cd ..
+  echo "Removing $boot_dir folder"
+  rm -rf $boot_dir
+  exit 0
+fi  
+
+  rm *.pl
+  rm mkbootimg
+  rm boot.img-kernel.img
+  rm -r boot.img-ramdisk
+
+echo  
+echo "---> Copy boot.img to the working folder"
+echo  
+echo "---> boot.img_MT65xx folder will be deleted after you press enter"
+
+cd ../scripts
+
+./press_enter
+
+  cd ..
+  echo "Removing $boot_dir folder"
+  rm -rf $boot_dir
+  exit 0

@@ -1,0 +1,69 @@
+busybox sysctl -e -w net.ipv4.conf.all.accept_redirects=0;
+busybox sysctl -e -w net.ipv4.conf.default.accept_redirects=0;
+busybox sysctl -e -w net.ipv4.conf.all.secure_redirects=0;
+busybox sysctl -e -w net.ipv4.conf.default.secure_redirects=0;
+busybox sysctl -e -w net.ipv4.conf.default.accept_source_route=0;
+busybox sysctl -e -w net.ipv4.conf.all.accept_source_route=0;
+busybox sysctl -e -w net.ipv4.tcp_timestamps=0;
+busybox sysctl -e -w net.ipv4.tcp_sack=1;
+busybox sysctl -e -w net.ipv4.tcp_fack=1;
+busybox sysctl -e -w net.ipv4.tcp_congestion_control=cubic;
+busybox sysctl -e -w net.ipv4.tcp_window_scaling=1;
+busybox sysctl -e -w net.ipv4.tcp_tw_recycle=1;
+busybox sysctl -e -w net.ipv4.tcp_tw_reuse=1;
+busybox sysctl -e -w net.ipv4.tcp_syncookies=1;
+busybox sysctl -e -w net.ipv4.conf.all.rp_filter=1;
+busybox sysctl -e -w net.ipv4.conf.default.rp_filter=1;
+busybox sysctl -e -w net.ipv4.tcp_synack_retries=2;
+busybox sysctl -e -w net.ipv4.tcp_syn_retries=2;
+busybox sysctl -e -w net.ipv4.tcp_max_syn_backlog=1024;
+busybox sysctl -e -w net.ipv4.tcp_max_tw_buckets=16384;
+busybox sysctl -e -w net.ipv4.icmp_echo_ignore_all=1;
+busybox sysctl -e -w net.ipv4.icmp_ignore_bogus_error_responses=1;
+busybox sysctl -e -w net.ipv4.tcp_no_metrics_save=1;
+busybox sysctl -e -w net.ipv4.tcp_fin_timeout=15;
+busybox sysctl -e -w net.ipv4.tcp_keepalive_intvl=30;
+busybox sysctl -e -w net.ipv4.tcp_keepalive_probes=5;
+busybox sysctl -e -w net.ipv4.tcp_keepalive_time=1800;
+busybox sysctl -e -w net.ipv4.ip_forward=0;
+if [ -e /queue/iostats ]; then
+echo 0 > /queue/iostats;
+fi;  
+if [ -e /queue/rotational ]; then
+echo 0 > /queue/rotational; fi;
+if [ -e /queue/nr_requests ]; then
+echo 1024 > /queue/nr_requests; fi;
+rm -f /dev/log/main
+busybox mount -o remount,noatime,noauto_da_alloc,nodiratime,barrier =0,nobh /system
+busybox mount -o remount,noatime,noauto_da_alloc,nosuid,nodev,nodir atime,barrier=0,nobh /data
+busybox mount -o remount,noatime,noauto_da_alloc,nosuid,nodev,nodir atime,barrier=0,nobh /cache
+echo 8 > /sys/block/mtdblock0/bdi/read_ahead_kb
+echo 8 > /sys/block/mtdblock1/bdi/read_ahead_kb
+echo 8 > /sys/block/mtdblock2/bdi/read_ahead_kb
+echo 8 > /sys/block/mtdblock3/bdi/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:0/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:1/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:2/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:3/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:4/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:5/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:6/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:7/read_ahead_kb
+echo 4096 > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+echo 4096 > /sys/devices/virtual/bdi/default/read_ahead_kb
+echo 97 > /sys/devices/virtual/bdi/179:0/max_ratio
+echo 97 > /sys/devices/virtual/bdi/default/max_ratio
+echo 4096 > /sys/devices/virtual/bdi/179:0/read_ahead_kb;
+echo 128 > /sys/devices/virtual/bdi/7:0/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:1/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:2/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:3/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:4/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:5/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:6/read_ahead_kb
+echo 128 > /sys/devices/virtual/bdi/7:7/read_ahead_kb
+echo 4096 > /sys/devices/virtual/bdi/179:0/read_ahead_kb
+echo 4096 > /sys/devices/virtual/bdi/default/read_ahead_kb
+echo 97 > /sys/devices/virtual/bdi/179:0/max_ratio
+echo 97 > /sys/devices/virtual/bdi/default/max_ratio
+echo 4096 > /sys/devices/virtual/bdi/179:0/read_ahead_kb;

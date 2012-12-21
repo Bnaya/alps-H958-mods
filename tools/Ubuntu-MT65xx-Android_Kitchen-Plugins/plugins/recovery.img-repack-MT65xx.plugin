@@ -1,0 +1,50 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : bgcngm AKA Bruno Martins for MTK-Tools
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+recovery_dir=recovery.img_MT65xx
+
+
+  cd $recovery_dir
+  cp ../tools/MT65xx/repack-MT65xx.pl ../$recovery_dir
+  cp ../tools/MT65xx/mkbootimg ../$recovery_dir
+  chmod a+x mkbootimg
+
+  echo
+  echo Repack recovery.img ...
+  perl repack-MT65xx.pl -recovery ./recovery.img-kernel.img ./recovery.img-ramdisk ./recovery.img 2>/dev/null
+
+if [ ! -e recovery.img-kernel.img ]
+  then
+    echo "Error: No recovery.img-kernel.img found!"
+  cd ..
+  echo "Removing $recovery_dir folder"
+  rm -rf $recovery_dir
+  exit 0
+fi  
+
+  rm *.pl
+  rm mkbootimg
+  rm recovery.img-kernel.img
+  rm -r recovery.img-ramdisk
+
+echo  
+echo "---> Copy recovery.img to sdcard & flash via Mobileuncle Tools"
+echo  
+echo "---> recovery.img_MT65xx folder will be deleted after you press enter"
+
+cd ../scripts
+
+./press_enter
+
+  cd ..
+  echo "Removing $recovery_dir folder"
+  rm -rf $recovery_dir
+  exit 0

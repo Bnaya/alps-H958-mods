@@ -1,0 +1,43 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : bgcngm AKA Bruno Martins for MTK-Tools
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+logo_dir=logo.img_MT65xx
+
+echo
+echo "Creating folder `pwd`/$logo_dir ..."
+mkdir $logo_dir
+
+echo
+echo "---> Place logo.img into the folder mentioned above <--"
+
+scripts/press_enter
+
+  cd $logo_dir
+  cp ../tools/MT65xx/unpack-MT65xx.pl ../$logo_dir
+  
+  echo
+  echo Extracting logo.img ...
+  perl unpack-MT65xx.pl ./logo.img 2>/dev/null
+
+mkdir logo 
+mv *.rgb565 ./logo
+  
+if [ ! -e logo.img ]
+  then
+    echo "Error: No logo.img found!"
+  cd ..
+  echo "Removing $logo_dir folder"
+  rm -rf $logo_dir
+  exit 0
+fi  
+
+  rm *.pl
+  rm logo.img

@@ -1,0 +1,42 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : Pau Oliva - pof @ xda-developers
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+logo_dir=nb.img_MT65xx
+
+echo
+echo "Creating folder `pwd`/$logo_dir ..."
+mkdir $logo_dir
+
+echo
+echo "---> Place boot_logo into the folder mentioned above <--"
+
+scripts/press_enter
+
+
+  cd $logo_dir
+  cp ../tools/MT65xx/nbimg ../$logo_dir
+  chmod a+x nbimg
+  mv boot_logo logo.nb
+  
+  echo
+  echo Extracting boot_logo ...
+  ./nbimg -F logo.nb 
+
+if [ ! -e logo.nb ]
+  then
+    echo "Error: boot_logo found!"
+  cd ..
+  echo "Removing $boot_dir folder"
+  rm -rf $logo_dir
+  exit 0
+fi  
+
+  rm nbimg

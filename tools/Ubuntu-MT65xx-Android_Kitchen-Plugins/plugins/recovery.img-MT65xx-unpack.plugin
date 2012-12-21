@@ -1,0 +1,43 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : bgcngm AKA Bruno Martins for MTK-Tools
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+recovery_dir=recovery.img_MT65xx
+
+echo
+echo "Creating folder `pwd`/$recovery_dir ..."
+mkdir $recovery_dir
+
+echo
+echo "---> Place recovery.img into the folder mentioned above <--"
+
+scripts/press_enter
+
+
+  cd $recovery_dir
+  cp ../tools/MT65xx/unpack-MT65xx.pl ../$recovery_dir
+  
+  echo
+  echo Extracting recovery.img ...
+  perl unpack-MT65xx.pl recovery.img 2>/dev/null
+
+if [ ! -e recovery.img ]
+  then
+    echo "Error: No recovery.img found!"
+  cd ..
+  echo "Removing $recovery_dir folder"
+  rm -rf $recovery_dir
+  exit 0
+fi  
+
+  rm recovery.img
+  rm recovery.img-ramdisk.cpio.gz
+  rm *.pl
+  

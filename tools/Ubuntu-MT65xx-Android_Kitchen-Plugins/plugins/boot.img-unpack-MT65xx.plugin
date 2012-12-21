@@ -1,0 +1,42 @@
+############################################################################
+#
+# Android Kitchen Plugins for MT65xx  
+# by yuweng@xda
+# 
+# Credits : bgcngm AKA Bruno Martins for MTK-Tools
+#         : dsixda for Android Kitchen
+#
+############################################################################
+clear
+
+boot_dir=boot.img_MT65xx
+
+echo
+echo "Creating folder `pwd`/$boot_dir ..."
+mkdir $boot_dir
+
+echo
+echo "---> Place boot.img into the folder mentioned above <--"
+
+scripts/press_enter
+
+
+  cd $boot_dir
+  cp ../tools/MT65xx/unpack-MT65xx.pl ../$boot_dir
+  
+  echo
+  echo Extracting boot.img ...
+  perl unpack-MT65xx.pl boot.img 2>/dev/null
+
+if [ ! -e boot.img ]
+  then
+    echo "Error: No boot.img found!"
+  cd ..
+  echo "Removing $boot_dir folder"
+  rm -rf $boot_dir
+  exit 0
+fi  
+  rm boot.img
+  rm boot.img-ramdisk.cpio.gz
+  rm *.pl
+  
